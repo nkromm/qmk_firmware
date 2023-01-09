@@ -20,17 +20,17 @@
 enum preonic_layers {
     _COLEMAK,
     _QWERTY,
+    _GAMING,
     _RAISE,
     _ADJUST,
-    _GAMING,
 };
 
 enum preonic_keycodes {
   COLEMAK = SAFE_RANGE,
   QWERTY,
+  GAMING,
   RAISE,
   ADJUST,
-  GAMING,
 };
 
 #define MOD_A LGUI_T(KC_A)
@@ -84,6 +84,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ADJUST,  _______,  KC_LBRC, KC_RBRC,        LT_RSSP,    LT_RSRT,         KC_LPRN,  KC_RPRN,  _______,  ADJUST
 ),
 
+[_GAMING] = LAYOUT_preonic_2x2u(
+  KC_ESC,  KC_1,    KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
+  KC_TAB,  KC_Q,    KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
+  KC_QUOT, KC_A,    KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    MOD_J,   MOD_K,   MOD_L,   MOD_SCLN, KC_MINS,
+  KC_GRV,  KC_Z,    KC_X,     KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
+  ADJUST,  RAISE,   KC_LCTL, KC_LSFT,      KC_SPC,       LT_RSRT,         KC_LEFT, KC_DOWN, KC_UP,    KC_RGHT
+),
+
 /* Raise
  * ,-----------------------------------------------------------------------------------.
  * | Esc  |  C-z |  C-x |  C-c |  C-v |   &  |   *  | Home | PgDn | PgUp | End  | Bksp |
@@ -105,21 +113,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   XXXXXXX,  _______,    KC_PSCR,    KC_CAPS,              _______,      _______,          _______,  _______,  _______,  XXXXXXX
 ),
 
-
 [_ADJUST] = LAYOUT_preonic_2x2u(
   QK_BOOT, XXXXXXX, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD, XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX, MU_TOG,
   COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SAI, RGB_SAD, XXXXXXX, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX, MI_TOG,
   QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_VAI, RGB_VAD, XXXXXXX, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, AU_TOG,
   GAMING,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,
   _______, XXXXXXX, XXXXXXX, XXXXXXX,        XXXXXXX,       XXXXXXX,       XXXXXXX, XXXXXXX, XXXXXXX, _______
-),
-
-[_GAMING] = LAYOUT_preonic_2x2u(
-  KC_ESC,  KC_1,    KC_2,     KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
-  KC_TAB,  KC_Q,    KC_W,     KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
-  KC_QUOT, KC_A,    KC_S,     KC_D,    KC_F,    KC_G,    KC_H,    MOD_J,   MOD_K,   MOD_L,   MOD_SCLN, KC_MINS,
-  KC_GRV,  KC_Z,    KC_X,     KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
-  ADJUST,  RAISE,   KC_LCTRL, KC_LSFT,      KC_SPC,       LT_RSRT,         KC_LEFT, KC_DOWN, KC_UP,    KC_RGHT
 ),
 
 };
@@ -165,65 +164,65 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
-bool muse_mode = false;
-uint8_t last_muse_note = 0;
-uint16_t muse_counter = 0;
-uint8_t muse_offset = 70;
-uint16_t muse_tempo = 50;
+// bool muse_mode = false;
+// uint8_t last_muse_note = 0;
+// uint16_t muse_counter = 0;
+// uint8_t muse_offset = 70;
+// uint16_t muse_tempo = 50;
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
-    if (clockwise) {
-      register_code(KC_PGDN);
-      unregister_code(KC_PGDN);
-    } else {
-      register_code(KC_PGUP);
-      unregister_code(KC_PGUP);
-    }
-  }
-    return true;
-}
+// bool encoder_update_user(uint8_t index, bool clockwise) {
+//   if (muse_mode) {
+//     if (IS_LAYER_ON(_RAISE)) {
+//       if (clockwise) {
+//         muse_offset++;
+//       } else {
+//         muse_offset--;
+//       }
+//     } else {
+//       if (clockwise) {
+//         muse_tempo+=1;
+//       } else {
+//         muse_tempo-=1;
+//       }
+//     }
+//   } else {
+//     if (clockwise) {
+//       register_code(KC_PGDN);
+//       unregister_code(KC_PGDN);
+//     } else {
+//       register_code(KC_PGUP);
+//       unregister_code(KC_PGUP);
+//     }
+//   }
+//     return true;
+// }
 
-void matrix_scan_user(void) {
-#ifdef AUDIO_ENABLE
-    if (muse_mode) {
-        if (muse_counter == 0) {
-            uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
-            if (muse_note != last_muse_note) {
-                stop_note(compute_freq_for_midi_note(last_muse_note));
-                play_note(compute_freq_for_midi_note(muse_note), 0xF);
-                last_muse_note = muse_note;
-            }
-        }
-        muse_counter = (muse_counter + 1) % muse_tempo;
-    } else {
-        if (muse_counter) {
-            stop_all_notes();
-            muse_counter = 0;
-        }
-    }
-#endif
-}
+// void matrix_scan_user(void) {
+// #ifdef AUDIO_ENABLE
+//     if (muse_mode) {
+//         if (muse_counter == 0) {
+//             uint8_t muse_note = muse_offset + SCALE[muse_clock_pulse()];
+//             if (muse_note != last_muse_note) {
+//                 stop_note(compute_freq_for_midi_note(last_muse_note));
+//                 play_note(compute_freq_for_midi_note(muse_note), 0xF);
+//                 last_muse_note = muse_note;
+//             }
+//         }
+//         muse_counter = (muse_counter + 1) % muse_tempo;
+//     } else {
+//         if (muse_counter) {
+//             stop_all_notes();
+//             muse_counter = 0;
+//         }
+//     }
+// #endif
+// }
 
-bool music_mask_user(uint16_t keycode) {
-  switch (keycode) {
-    case RAISE:
-      return false;
-    default:
-      return true;
-  }
-}
+// bool music_mask_user(uint16_t keycode) {
+//   switch (keycode) {
+//     case RAISE:
+//       return false;
+//     default:
+//       return true;
+//   }
+// }
