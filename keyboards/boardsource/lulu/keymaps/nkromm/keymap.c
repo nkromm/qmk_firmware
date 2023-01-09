@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-#include "transactions.h"
+// #include "transactions.h"
 
 enum lulu_layers {
     _COLEMAK,
@@ -153,33 +153,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 
-static bool watchdog_ping_done = false;
-static uint32_t watchdog_timer = 0;
+// static bool watchdog_ping_done = false;
+// static uint32_t watchdog_timer = 0;
 
-void watchdog_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) { watchdog_ping_done = true; }
+// void watchdog_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) { watchdog_ping_done = true; }
 
-void keyboard_post_init_kb(void) {
-    keyboard_post_init_user();
-    transaction_register_rpc(WATCHDOG_SYNC, watchdog_slave_handler);
-    watchdog_timer = timer_read32();
-}
+// void keyboard_post_init_kb(void) {
+//     keyboard_post_init_user();
+//     transaction_register_rpc(WATCHDOG_SYNC, watchdog_slave_handler);
+//     watchdog_timer = timer_read32();
+// }
 
-void housekeeping_task_kb(void) {
-    if (!watchdog_ping_done) {
-        if (is_keyboard_master()) {
-            if (timer_elapsed32(watchdog_timer) > 100) {
-                uint8_t any_data = 1;
-                if (transaction_rpc_send(WATCHDOG_SYNC, sizeof(any_data), &any_data)) {
-                    watchdog_ping_done = true;  // successful ping
-                } else {
-                    dprint("Watchdog ping failed!\n");
-                }
-                watchdog_timer = timer_read32();
-            }
-        } else {
-            if (timer_elapsed32(watchdog_timer) > SPLIT_USB_TIMEOUT + 1000) {
-                mcu_reset();
-            }
-        }
-    }
-}
+// void housekeeping_task_kb(void) {
+//     if (!watchdog_ping_done) {
+//         if (is_keyboard_master()) {
+//             if (timer_elapsed32(watchdog_timer) > 100) {
+//                 uint8_t any_data = 1;
+//                 if (transaction_rpc_send(WATCHDOG_SYNC, sizeof(any_data), &any_data)) {
+//                     watchdog_ping_done = true;  // successful ping
+//                 } else {
+//                     dprint("Watchdog ping failed!\n");
+//                 }
+//                 watchdog_timer = timer_read32();
+//             }
+//         } else {
+//             if (timer_elapsed32(watchdog_timer) > SPLIT_USB_TIMEOUT + 1000) {
+//                 mcu_reset();
+//             }
+//         }
+//     }
+// }

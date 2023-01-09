@@ -22,11 +22,11 @@
 // settings below and the fix from develop the problem will be addressed (at least partially)
 // I will wait until the fix gets merged into master.
 // #define SPLIT_USB_DETECT
-#define SPLIT_USB_TIMEOUT 2000
+// #define SPLIT_USB_TIMEOUT 2000
 
 // other settings I tried that didn't help
 // #define USB_SUSPEND_WAKEUP_DELAY 15000
 // #define NO_USB_STARTUP_CHECK
 // #define EE_HANDS
 
-#define SPLIT_TRANSACTION_IDS_KB WATCHDOG_SYNC
+// #define SPLIT_TRANSACTION_IDS_KB WATCHDOG_SYNC
