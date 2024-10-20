@@ -19,7 +19,7 @@
 
 enum preonic_layers {
     _COLEMAK,
-    _QWERTY,
+    _COLEMAK_2,
     _GAMING,
     _RAISE,
     _ADJUST,
@@ -27,7 +27,7 @@ enum preonic_layers {
 
 enum preonic_keycodes {
   COLEMAK = SAFE_RANGE,
-  QWERTY,
+  COLEMAK_2,
   GAMING,
   RAISE,
   ADJUST,
@@ -76,12 +76,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ADJUST,  _______,  _______, KC_LBRC, KC_RBRC, LT_RSSP, LT_RSRT, KC_LPRN, KC_RPRN,  _______,  _______,  ADJUST
 ),
 
-[_QWERTY] = LAYOUT_preonic_grid(
-  KC_ESC,  KC_EXLM,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_LEFT, KC_DOWN,  KC_UP,    KC_RGHT,  KC_BSPC,
-  KC_TAB,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,     KC_BSLS,
-  KC_QUOT, MOD_A,    MOD_S,   MOD_D,   MOD_F,   KC_G,    KC_H,    MOD_J,   MOD_K,    MOD_L,    MOD_SCLN, KC_MINS,
-  KC_GRV,  KC_Z,     KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_EQL,
-  ADJUST,  _______,  _______, KC_LBRC, KC_RBRC, LT_RSSP, LT_RSRT, KC_LPRN, KC_RPRN,  _______,  _______,  ADJUST
+[_COLEMAK_2] = LAYOUT_preonic_grid(
+  KC_ESC,  KC_EXLM,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC,  KC_CIRC, KC_LEFT, KC_DOWN,  KC_UP,    KC_RGHT,  KC_BSPC,
+  KC_TAB,  KC_Q,     KC_W,    KC_F,    KC_P,    KC_B,     KC_J,    KC_L,    KC_U,     KC_Y,     KC_SCLN,  KC_BSLS,
+  KC_QUOT, MOD_A,    MOD_R,   MOD_S,   MOD_T,   KC_G,     KC_M,    MOD_N,   MOD_E,    MOD_I,    MOD_O,    KC_MINS,
+  KC_GRV,  KC_Z,     KC_X,    KC_C,    KC_D,    KC_V,     KC_K,    KC_H,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_EQL,
+  ADJUST,  _______,  _______, KC_LBRC, KC_RBRC, KC_SPACE, LT_RSRT, KC_LPRN, KC_RPRN,  _______,  _______,  ADJUST
 ),
 
 [_GAMING] = LAYOUT_preonic_grid(
@@ -114,11 +114,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 [_ADJUST] = LAYOUT_preonic_grid(
-  QK_BOOT, QK_RBT,  RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD, XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX, MU_TOGG,
-  COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SAI, RGB_SAD, XXXXXXX, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX, MI_TOGG,
-  QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_VAI, RGB_VAD, XXXXXXX, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, AU_TOGG,
-  GAMING,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,
-  _______, XXXXXXX, XXXXXXX, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
+  RGB_TOG,   QK_RBT,  RGB_MOD, RGB_RMOD,  RGB_HUI, RGB_HUD, XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX, MU_TOGG,
+  COLEMAK,   XXXXXXX, XXXXXXX, XXXXXXX,   RGB_SAI, RGB_SAD, XXXXXXX, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX, AU_TOGG,
+  COLEMAK_2, XXXXXXX, XXXXXXX, XXkkXXXXX, RGB_VAI, RGB_VAD, XXXXXXX, KC_MPLY, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  GAMING,    XXXXXXX, XXXXXXX, XXXXXXX,   RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______,
+  _______,   XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
 ),
 
 };
@@ -131,9 +131,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
           return false;
           break;
-        case QWERTY:
+        case COLEMAK_2:
           if (record->event.pressed) {
-            set_single_persistent_default_layer(_QWERTY);
+            set_single_persistent_default_layer(_COLEMAK_2);
           }
           return false;
           break;

@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_GRV,  KC_Z,   KC_X,   KC_C,    KC_V,    KC_B,    KC_MPLY,           RGB_TOG,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
                            ADJUST,  KC_LBRC, KC_RBRC, LT_RSSP,           LT_RSRT,  KC_LPRN, KC_RPRN, ADJUST
 ),
-
+}
 /* RAISE
  * ,-----------------------------------------.                    ,-----------------------------------------.
  * | Esc  |  C-z |  C-x |  C-c |  C-v |   &  |                    |   *  | Home | PgDn | PgUp | End  | Bksp |
