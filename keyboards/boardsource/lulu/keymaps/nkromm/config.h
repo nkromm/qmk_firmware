@@ -4,5 +4,7 @@
 #undef TAPPING_TERM
 #define TAPPING_TERM 210
 
-// Prevent normal rollover on alphas from accidentally triggering mods.
-// #define IGNORE_MOD_TAP_INTERRUPT
+// A home-row key acts as a modifier only when the next key is on the other hand.
+#define CHORDAL_HOLD
+// An opposite-hand chord counts as hold once the other key is released.
+#define PERMISSIVE_HOLD

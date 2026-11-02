@@ -2,22 +2,22 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include QMK_KEYBOARD_H
-// #include "transactions.h"
 
+// Base layers must come before RAISE and ADJUST: a higher layer wins, so a
+// base layer above them would hide them and leave no way back.
 enum lulu_layers {
     _COLEMAK,
-    _QWERTY,
+    _COLEMAK_GAMING,
+    _GAMING,
     _RAISE,
     _ADJUST,
-    _GAMING,
 };
 
 enum lulu_keycodes {
-  COLEMAK = SAFE_RANGE,
-  QWERTY,
-  RAISE,
-  ADJUST,
-  GAMING,
+    COLEMAK = SAFE_RANGE,
+    COLEMAK_GAMING,
+    ADJUST,
+    GAMING,
 };
 
 #define MOD_A LGUI_T(KC_A)
@@ -39,147 +39,157 @@ enum lulu_keycodes {
 #define LT_RSSP LT(_RAISE, KC_SPACE)
 #define LT_RSRT LT(_RAISE, KC_ENTER)
 
+// clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* COLEMAK - DHm
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * | Esc  |   !  |   @  |   #  |   $  |   %  |                    |   ^  |   ←  |   ↓  |   ↑  |   →  | Bksp |
+ * | Esc  |   !  |   @  |   #  |   $  |   &  |                    |   *  |   ←  |   ↓  |   ↑  |   →  | Bksp |
  * |------+------+------+------+------+------|                    +------+------+------+------+------+------|
  * | Tab  |   Q  |   W  |   F  |   P  |   B  |                    |   J  |   L  |   U  |   Y  |  ;   |  \   |
  * |------+------+------+------+------+------|                    -------+------+------+------+------+------|
  * |  '   |  M_A |  M_R |  M_S |  M_T |   G  |-------.    ,-------|   M  |  M_N |  M_E |  M_I |  M_O |  -   |
- * |------+------+------+------+------+------| Media |    |  RGB  |------+------+------+------+------+------|
+ * |------+------+------+------+------+------|Adjust |    |Adjust |------+------+------+------+------+------|
  * |  `   |   Z  |   X  |   C  |   D  |   V  |-------|    |-------|   K  |   H  |   ,  |   .  |  /   |  =   |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                 | ADJUST |  [   |  ]   | / Space /       \ Enter\  |  (   |  )   | ADJUST |
+ *                 |  Alt   |  [   |  ]   | / Space /       \ Enter\  |  (   |  )   |  Alt   |
  *                 |        |      |      |/       /         \      \ |      |      |        |
  *                 `----------------------'-------'           '------''----------------------'
  */
 
  [_COLEMAK] = LAYOUT(
-  KC_ESC,  KC_EXLM,  KC_AT,  KC_HASH, KC_DLR,  KC_AMPR,                            KC_ASTR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
-  KC_TAB,  KC_Q,     KC_W,   KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,  KC_BSLS,
-  KC_QUOT, MOD_A,    MOD_R,  MOD_S,   MOD_T,   KC_G,                               KC_M,    MOD_N,   MOD_E,   MOD_I,   MOD_O,    KC_MINS,
-  KC_GRV,  KC_Z,     KC_X,   KC_C,    KC_D,    KC_V,    KC_MPLY,         RGB_TOG,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
-                             ADJUST,  KC_LBRC, KC_RBRC, LT_RSSP,         LT_RSRT,  KC_LPRN, KC_RPRN, ADJUST
+  KC_ESC,         KC_EXLM,    KC_AT,      KC_HASH,    KC_DLR,     KC_AMPR,                   KC_ASTR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
+  KC_TAB,         KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,  KC_BSLS,
+  KC_QUOT,        MOD_A,      MOD_R,      MOD_S,      MOD_T,      KC_G,                      KC_M,    MOD_N,   MOD_E,   MOD_I,   MOD_O,    KC_MINS,
+  KC_GRV,         KC_Z,       KC_X,       KC_C,       KC_D,       KC_V,    ADJUST,  ADJUST,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
+                              KC_LALT,    KC_LBRC,    KC_RBRC,    LT_RSSP,                   LT_RSRT, KC_LPRN, KC_RPRN, KC_RALT
 ),
 
- [_QWERTY] = LAYOUT(
-  KC_ESC,  KC_EXLM,  KC_AT,  KC_HASH, KC_DLR,  KC_AMPR,                            KC_ASTR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
-  KC_TAB,  KC_Q,   KC_W,   KC_E,    KC_R,    KC_T,                                 KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
-  KC_QUOT, MOD_A,  MOD_S,  MOD_D,   MOD_F,   KC_G,                                 KC_H,    MOD_J,   MOD_K,   MOD_L,   MOD_SCLN, KC_MINS,
-  KC_GRV,  KC_Z,   KC_X,   KC_C,    KC_V,    KC_B,    KC_MPLY,           RGB_TOG,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
-                           ADJUST,  KC_LBRC, KC_RBRC, LT_RSSP,           LT_RSRT,  KC_LPRN, KC_RPRN, ADJUST
+/* COLEMAK_GAMING: Colemak with plain 1-5 and no home-row mods on the left, plain modifiers on the left thumbs
+ * ,-----------------------------------------.                    ,-----------------------------------------.
+ * | Esc  |   1  |   2  |   3  |   4  |   5  |                    |   *  |   ←  |   ↓  |   ↑  |   →  | Bksp |
+ * |------+------+------+------+------+------|                    +------+------+------+------+------+------|
+ * | Tab  |   Q  |   W  |   F  |   P  |   B  |                    |   J  |   L  |   U  |   Y  |  ;   |  \   |
+ * |------+------+------+------+------+------|                    -------+------+------+------+------+------|
+ * |  '   |   A  |   R  |   S  |   T  |   G  |-------.    ,-------|   M  |  M_N |  M_E |  M_I |  M_O |  -   |
+ * |------+------+------+------+------+------|Adjust |    |Adjust |------+------+------+------+------+------|
+ * |  `   |   Z  |   X  |   C  |   D  |   V  |-------|    |-------|   K  |   H  |   ,  |   .  |  /   |  =   |
+ * `-----------------------------------------/       /     \      \-----------------------------------------'
+ *                 |  Alt   | Ctrl | Shift| / Space /       \ Enter\  |  (   |  )   |        |
+ *                 |        |      |      |/       /         \      \ |      |      |        |
+ *                 `----------------------'-------'           '------''----------------------'
+ */
+ [_COLEMAK_GAMING] = LAYOUT(
+  KC_ESC,         KC_1,       KC_2,       KC_3,       KC_4,       KC_5,                      KC_ASTR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
+  KC_TAB,         KC_Q,       KC_W,       KC_F,       KC_P,       KC_B,                      KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN,  KC_BSLS,
+  KC_QUOT,        KC_A,       KC_R,       KC_S,       KC_T,       KC_G,                      KC_M,    MOD_N,   MOD_E,   MOD_I,   MOD_O,    KC_MINS,
+  KC_GRV,         KC_Z,       KC_X,       KC_C,       KC_D,       KC_V,    ADJUST,  ADJUST,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
+                              KC_LALT,    KC_LCTL,    KC_LSFT,    KC_SPC,                    LT_RSRT, KC_LPRN, KC_RPRN, XXXXXXX
+),
+
+/* GAMING: COLEMAK_GAMING in QWERTY
+ * ,-----------------------------------------.                    ,-----------------------------------------.
+ * | Esc  |   1  |   2  |   3  |   4  |   5  |                    |   *  |   ←  |   ↓  |   ↑  |   →  | Bksp |
+ * |------+------+------+------+------+------|                    +------+------+------+------+------+------|
+ * | Tab  |   Q  |   W  |   E  |   R  |   T  |                    |   Y  |   U  |   I  |   O  |   P  |  \   |
+ * |------+------+------+------+------+------|                    -------+------+------+------+------+------|
+ * |  '   |   A  |   S  |   D  |   F  |   G  |-------.    ,-------|   H  |  M_J |  M_K |  M_L |  M_; |  -   |
+ * |------+------+------+------+------+------|Adjust |    |Adjust |------+------+------+------+------+------|
+ * |  `   |   Z  |   X  |   C  |   V  |   B  |-------|    |-------|   N  |   M  |   ,  |   .  |  /   |  =   |
+ * `-----------------------------------------/       /     \      \-----------------------------------------'
+ *                 |  Alt   | Ctrl | Shift| / Space /       \ Enter\  |  (   |  )   |        |
+ *                 |        |      |      |/       /         \      \ |      |      |        |
+ *                 `----------------------'-------'           '------''----------------------'
+ */
+ [_GAMING] = LAYOUT(
+  KC_ESC,         KC_1,       KC_2,       KC_3,       KC_4,       KC_5,                      KC_ASTR, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,  KC_BSPC,
+  KC_TAB,         KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,                      KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
+  KC_QUOT,        KC_A,       KC_S,       KC_D,       KC_F,       KC_G,                      KC_H,    MOD_J,   MOD_K,   MOD_L,   MOD_SCLN, KC_MINS,
+  KC_GRV,         KC_Z,       KC_X,       KC_C,       KC_V,       KC_B,    ADJUST,  ADJUST,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
+                              KC_LALT,    KC_LCTL,    KC_LSFT,    KC_SPC,                    LT_RSRT, KC_LPRN, KC_RPRN, XXXXXXX
 ),
 
 /* RAISE
  * ,-----------------------------------------.                    ,-----------------------------------------.
- * | Esc  |  C-z |  C-x |  C-c |  C-v |   &  |                    |   *  | Home | PgDn | PgUp | End  | Bksp |
+ * | Esc  |  C-z |  C-x |  C-c |  C-v |   %  |                    |   ^  | Home | PgDn | PgUp | End  | Bksp |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
  * | Del  |   1  |   2  |   3  |   4  |   5  |                    |   6  |   7  |   8  |   9  |   0  | Del  |
  * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
- * | Ins  |      |      |  C-s |      |      |-------.    ,-------| NumL |   -  | KP - |      |      | Ins  |
+ * | Ins  |      |      |      |      |      |-------.    ,-------| NumL | ScrL | Pause| KP - | Menu | Ins  |
  * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
  * |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |-------|    |-------|  F7  |  F8  |  F9  | F10  | F11  | F12  |
  * `-----------------------------------------/       /     \      \-----------------------------------------'
- *                   | XXXX | PSCR | CAPS | /       /       \      \  |      |      | XXXX |
+ *                   | XXXX | PSCR | CAPS | /       /       \      \  |AltGr | RCtl | RGui |
  *                   |      |      |      |/       /         \      \ |      |      |      |
  *                   `----------------------------'           '------''--------------------'
  */
  [_RAISE] = LAYOUT(
-  KC_ESC,   LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_PERC,                          KC_CIRC, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_BSPC,
-  KC_DEL,   KC_1,       KC_2,       KC_3,       KC_4,       KC_5,                             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,
-  KC_INS,   _______,    _______,    LCTL(KC_S), _______,    _______,                          KC_NUM,  KC_MINS, KC_PMNS, _______, _______, KC_INS,
-  KC_F1,    KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,     _______,      _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,
-                                    XXXXXXX,    KC_PSCR,    KC_CAPS,   _______,      _______, _______, _______, XXXXXXX
+  KC_ESC,         LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_PERC,                   KC_CIRC, KC_HOME, KC_PGDN, KC_PGUP, KC_END,   KC_BSPC,
+  KC_DEL,         KC_1,       KC_2,       KC_3,       KC_4,       KC_5,                      KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_DEL,
+  KC_INS,         _______,    _______,    _______,    _______,    _______,                   KC_NUM,  KC_SCRL, KC_PAUS, KC_PMNS, KC_APP,   KC_INS,
+  KC_F1,          KC_F2,      KC_F3,      KC_F4,      KC_F5,      KC_F6,   _______, _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,   KC_F12,
+                              XXXXXXX,    KC_PSCR,    KC_CAPS,    _______,                   _______, KC_RALT, KC_RCTL, KC_RGUI
 ),
 
+/* ADJUST
+ * ,-----------------------------------------.                    ,-----------------------------------------.
+ * | Boot |      | RGB  | Hue+ | Hue- |      |                    |      | Vol- | Vol+ |      |      | Boot |
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * |Colemk|      | Mode+| Sat+ | Sat- |      |                    |      | Prev | Next |      |      |Colemk|
+ * |------+------+------+------+------+------|                    |------+------+------+------+------+------|
+ * |CmkGam|      | Mode-| Bri+ | Bri- |      |-------.    ,-------|      | Play | Mute |      |      |CmkGam|
+ * |------+------+------+------+------+------|       |    |       |------+------+------+------+------+------|
+ * |Gaming|      |      | Spd+ | Spd- |      |-------|    |-------|      |      |      |      |      |Gaming|
+ * `-----------------------------------------/       /     \      \-----------------------------------------'
+ */
  [_ADJUST] = LAYOUT(
-  QK_BOOT, XXXXXXX, RGB_MOD, RGB_RMOD, RGB_HUI, RGB_HUD,                   RGB_HUI, RGB_HUD, RGB_MOD, RGB_RMOD, XXXXXXX, QK_BOOT,
-  COLEMAK, XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SAI, RGB_SAD,                   RGB_SAI, RGB_SAD, XXXXXXX, XXXXXXX,  XXXXXXX, COLEMAK,
-  QWERTY,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_VAI, RGB_VAD,                   RGB_VAI, RGB_VAD, XXXXXXX, XXXXXXX,  XXXXXXX, QWERTY,
-  GAMING,  XXXXXXX, XXXXXXX, XXXXXXX,  RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX, RGB_SPI, RGB_SPD, XXXXXXX, XXXXXXX,  XXXXXXX, GAMING,
-                             _______,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, _______
-  ),
-
- [_GAMING] = LAYOUT(
-  KC_ESC,  KC_1,  KC_2,  KC_3,    KC_4,     KC_5,                                    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
-  KC_TAB,  KC_Q,  KC_W,  KC_E,    KC_R,     KC_T,                                    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,     KC_BSLS,
-  KC_QUOT, KC_A,  KC_S,  KC_D,    KC_F,     KC_G,                                    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN,  KC_MINS,
-  KC_GRV,  KC_Z,  KC_X , KC_C,    KC_V,     KC_B,    COLEMAK,              COLEMAK,  KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_EQL,
-                         KC_LALT, KC_LCTL, KC_LSFT, KC_SPC,               LT_RSRT,  KC_LPRN, KC_RPRN, KC_CAPS
+  QK_BOOT,        XXXXXXX,    RM_TOGG,    RM_HUEU,    RM_HUED,    XXXXXXX,                   XXXXXXX, KC_VOLD, KC_VOLU, XXXXXXX, XXXXXXX,  QK_BOOT,
+  COLEMAK,        XXXXXXX,    RM_NEXT,    RM_SATU,    RM_SATD,    XXXXXXX,                   XXXXXXX, KC_MPRV, KC_MNXT, XXXXXXX, XXXXXXX,  COLEMAK,
+  COLEMAK_GAMING, XXXXXXX,    RM_PREV,    RM_VALU,    RM_VALD,    XXXXXXX,                   XXXXXXX, KC_MPLY, KC_MUTE, XXXXXXX, XXXXXXX,  COLEMAK_GAMING,
+  GAMING,         XXXXXXX,    XXXXXXX,    RM_SPDU,    RM_SPDD,    XXXXXXX, _______, _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  GAMING,
+                              XXXXXXX,    XXXXXXX,    XXXXXXX,    XXXXXXX,                   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
 ),
 
 };
+// Which hand each key belongs to, for CHORDAL_HOLD. Thumb keys and the keys above
+// them are '*' so Space/Enter (Raise) and Adjust also work with keys on the same hand.
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM = LAYOUT(
+  'L', 'L', 'L', 'L', 'L', 'L',                'R', 'R', 'R', 'R', 'R', 'R',
+  'L', 'L', 'L', 'L', 'L', 'L',                'R', 'R', 'R', 'R', 'R', 'R',
+  'L', 'L', 'L', 'L', 'L', 'L',                'R', 'R', 'R', 'R', 'R', 'R',
+  'L', 'L', 'L', 'L', 'L', 'L', '*',      '*', 'R', 'R', 'R', 'R', 'R', 'R',
+                 '*', '*', '*', '*',      '*', '*', '*', '*'
+);
+// clang-format on
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
+    switch (keycode) {
         case COLEMAK:
-          if (record->event.pressed) {
-            set_single_persistent_default_layer(_COLEMAK);
-          }
-          return false;
-          break;
-        case QWERTY:
-          if (record->event.pressed) {
-            set_single_persistent_default_layer(_QWERTY);
-          }
-          return false;
-          break;
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_COLEMAK);
+            }
+            return false;
+            break;
+        case COLEMAK_GAMING:
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_COLEMAK_GAMING);
+            }
+            return false;
+            break;
         case GAMING:
-          if (record->event.pressed) {
-            set_single_persistent_default_layer(_GAMING);
-          }
-          return false;
-          break;
+            if (record->event.pressed) {
+                set_single_persistent_default_layer(_GAMING);
+            }
+            return false;
+            break;
         case ADJUST:
-          if (record->event.pressed) {
-            layer_on(_ADJUST);
-          } else {
-            layer_off(_ADJUST);
-          }
-          return false;
-          break;
-        case RAISE:
-          if (record->event.pressed) {
-            layer_on(_RAISE);
-          } else {
-            layer_off(_RAISE);
-          }
-          return false;
-          break;
-      }
+            if (record->event.pressed) {
+                layer_on(_ADJUST);
+            } else {
+                layer_off(_ADJUST);
+            }
+            return false;
+            break;
+    }
     return true;
-};
-
-
-// static bool watchdog_ping_done = false;
-// static uint32_t watchdog_timer = 0;
-
-// void watchdog_slave_handler(uint8_t in_buflen, const void* in_data, uint8_t out_buflen, void* out_data) { watchdog_ping_done = true; }
-
-// void keyboard_post_init_kb(void) {
-//     keyboard_post_init_user();
-//     transaction_register_rpc(WATCHDOG_SYNC, watchdog_slave_handler);
-//     watchdog_timer = timer_read32();
-// }
-
-// void housekeeping_task_kb(void) {
-//     if (!watchdog_ping_done) {
-//         if (is_keyboard_master()) {
-//             if (timer_elapsed32(watchdog_timer) > 100) {
-//                 uint8_t any_data = 1;
-//                 if (transaction_rpc_send(WATCHDOG_SYNC, sizeof(any_data), &any_data)) {
-//                     watchdog_ping_done = true;  // successful ping
-//                 } else {
-//                     dprint("Watchdog ping failed!\n");
-//                 }
-//                 watchdog_timer = timer_read32();
-//             }
-//         } else {
-//             if (timer_elapsed32(watchdog_timer) > SPLIT_USB_TIMEOUT + 1000) {
-//                 mcu_reset();
-//             }
-//         }
-//     }
-// }
+}
